@@ -1221,6 +1221,48 @@
     80% { opacity: 1; }
     100% { opacity: 0; transform: scale(1.1); }
   }
+  /* 手机端技能按钮 */
+  .mobile-skill-buttons {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 100001;
+    pointer-events: none;
+  }
+  .mobile-skill-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.5);
+    font-size: 13px;
+    font-weight: 900;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.1s, opacity 0.2s;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  }
+  .mobile-skill-btn:active {
+    transform: scale(0.85);
+  }
+  .mobile-skill-btn.cooldown {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .mobile-skill-btn.red { background: radial-gradient(circle at 30% 30%, #ff8866, #cc0000); box-shadow: 0 0 12px rgba(255,50,50,0.6); }
+  .mobile-skill-btn.blue { background: radial-gradient(circle at 30% 30%, #66ccff, #0044cc); box-shadow: 0 0 12px rgba(50,100,255,0.6); }
+  .mobile-skill-btn.purple { background: radial-gradient(circle at 30% 30%, #cc88ff, #6600cc); box-shadow: 0 0 12px rgba(150,50,255,0.6); }
+  .mobile-skill-btn.domain { background: radial-gradient(circle at 30% 30%, #6666ff, #220066); box-shadow: 0 0 12px rgba(100,50,255,0.6); }
+
 </style>
 </head>
 <body>
@@ -1311,24 +1353,24 @@ const players = [
   { rank: 7, name: "qwq_ovo_qwq", title: "Combat Ace", points: 10, region: "中国", flag: "🇨🇳",
     tiers: { vanilla: "lt2", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "-", axe: "没有", mace: "没有", tnt: "没有", spearmace: "没有" } },
   { rank: 8, name: "StarSkyXT", title: "Combat Ace", points: 8, region: "中国", flag: "🇨🇳",
-    tiers: { vanilla: "lt5", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "ht5", axe: "没有", mace: "没有", tnt: "没有", spearmace: "没有" } },
+    tiers: { vanilla: "ht5", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "ht5", axe: "没有", mace: "lt4", tnt: "没有", spearmace: "没有" } },
   { rank: 9, name: "Gzgn_Gurd", title: "Combat Ace", points: 6, region: "中国", flag: "🇨🇳",
     tiers: { vanilla: "lt5", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "lt5", axe: "没有", mace: "没有", tnt: "没有", spearmace: "没有" } },
   { rank: 10, name: "Die_gods_exist", title: "Combat Expert", points: 5, region: "中国", flag: "🇨🇳",
     tiers: { vanilla: "lt5", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "lt5", axe: "没有", mace: "没有", tnt: "没有", spearmace: "没有" } },
   { rank: 11, name: "MisonoMika0vO", title: "Combat Expert", points: 4, region: "吧吧星", flag: "👽",
     customAvatar: "data:image/webp;base64,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",
-    tiers: { vanilla: "lt5", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "lt5", axe: "lt4", mace: "没有", tnt: "lt5", spearmace: "没有" } },
+    tiers: { vanilla: "no", uhc: "no", pot: "no", nethop: "no", smp: "no", sword: "no", axe: "no", mace: "no", tnt: "lt5", spearmace: "no" } },
   { rank: 12, name: "Axeilil", title: "Combat Expert", points: 4, region: "中国", flag: "🇨🇳",
-    tiers: { vanilla: "lt5", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "没有", axe: "没有", mace: "没有", tnt: "没有", spearmace: "没有" } },
+    tiers: { vanilla: "lt4", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "没有", axe: "没有", mace: "没有", tnt: "没有", spearmace: "没有" } },
   { rank: 13, name: "MistyZomber", title: "Combat Expert", points: 0, region: "中国", flag: "🇨🇳",
     tiers: { vanilla: "没有", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "没有", axe: "没有", mace: "ht3", tnt: "lt4", spearmace: "没有" } },
-  { rank: 14, name: "y", title: "Combat Expert", points: 0, region: "中国", flag: "🇨🇳",
+  { rank: 14, name: "没有", title: "Combat Expert", points: 0, region: "中国", flag: "🇨🇳",
     tiers: { vanilla: "-", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "没有", axe: "没有", mace: "没有", tnt: "没有", spearmace: "没有" } },
   { rank: 15, name: "Pixelkuai", title: "Combat Expert", points: 0, region: "中国", flag: "🇨🇳",
     tiers: { vanilla: "没有", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "lt5", axe: "没有", mace: "没有", tnt: "没有", spearmace: "没有" } },
-  { rank: 16, name: "没有", title: "Combat Expert", points: 0, region: "中国", flag: "🇨🇳",
-    tiers: { vanilla: "没有", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "没有", axe: "没有", mace: "没有", tnt: "没有", spearmace: "没有" } },
+  { rank: 16, name: "SenorZhang29", title: "Combat Expert", points: 0, region: "中国", flag: "🇨🇳",
+    tiers: { vanilla: "lt3", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "没有", axe: "没有", mace: "没有", tnt: "没有", spearmace: "没有" } },
   { rank: 17, name: "没有", title: "Combat Expert", points: 0, region: "中国", flag: "🇨🇳",
     tiers: { vanilla: "没有", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "没有", axe: "没有", mace: "没有", tnt: "没有", spearmace: "没有" } },
   { rank: 18, name: "没有", title: "Combat Expert", points: 0, region: "中国", flag: "🇨🇳",
@@ -1359,8 +1401,8 @@ const players = [
 
 // 毕业榜玩家 - 独立榜单，不参与综合排名
 const graduatePlayers = [
-  { rank: 1, name: "rhci", title: "Combat Grandmaster", points: 100, region: "中国", flag: "🇨🇳",
-    tiers: { vanilla: "lt1", uhc: "ht3", pot: "lt3", nethop: "ht3", smp: "没有", sword: "ht2", axe: "ht3", mace: "lt2", tnt: "没有", spearmace: "没有" } },
+  { rank: 1, name: "rhci", title: "Combat Grandmaster", points: 100, region: "中国香港", flag: "🇨🇳",
+    tiers: { vanilla: "lt1", uhc: "ht3", pot: "lt3", nethop: "ht3", smp: "lt2", sword: "ht2", axe: "ht3", mace: "ht2", tnt: "ht4", spearmace: "没有" } },
   { rank: 2, name: "", title: "Combat Master", points: 99, region: "中国", flag: "🇨🇳",
     tiers: { vanilla: "没有", uhc: "没有", pot: "没有", nethop: "没有", smp: "没有", sword: "没有", axe: "没有", mace: "没有", tnt: "没有", spearmace: "没有" } },
   { rank: 3, name: "", title: "Combat Master", points: 99, region: "中国", flag: "🇨🇳",
@@ -1954,6 +1996,40 @@ function spawnBouncingBall() {
   bossLayer = document.createElement("div");
   bossLayer.className = "boss-layer";
   document.body.appendChild(bossLayer);
+
+  // 手机端：创建技能按钮
+  if (isMobile) {
+    const skillBtns = document.createElement("div");
+    skillBtns.className = "mobile-skill-buttons";
+    const btnDefs = [
+      {type:"red", label:"苍", cls:"red"},
+      {type:"blue", label:"赫", cls:"blue"},
+      {type:"murasaki", label:"茈", cls:"purple"},
+      {type:"domain", label:"域", cls:"domain"}
+    ];
+    btnDefs.forEach(def => {
+      const btn = document.createElement("div");
+      btn.className = "mobile-skill-btn " + def.cls;
+      btn.textContent = def.label;
+      btn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (def.type === "domain") {
+          triggerDomainExpansion();
+        } else {
+          firePlayerSkill(def.type);
+        }
+      });
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+      skillBtns.appendChild(btn);
+    });
+    document.body.appendChild(skillBtns);
+    // 保存引用以便boss战结束时移除
+    window._mobileSkillBtns = skillBtns;
+  }
   bossBallEl = document.createElement("div");
   bossBallEl.className = "boss-ball";
   bossBallEl.style.pointerEvents = "none";
@@ -2063,16 +2139,16 @@ function spawnBouncingBall() {
     return true;
   }
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "h" || e.key === "H") { triggerDomainExpansion(); return; }
+  // 玩家技能发射（键盘和手机按钮共用）
+  function firePlayerSkill(type) {
     if (!bossBallEl || skillShotCooldown > 0) return;
-    // 术式熔断状态下只能用领域展开，不能用红蓝/茈
     if (reverseFailed) return;
-    let type = null;
-    if (e.key === "j" || e.key === "J") type = "red";
-    else if (e.key === "k" || e.key === "K") type = "blue";
-    else if (e.key === "l" || e.key === "L") { fireMurasaki(); skillShotCooldown = 120; return; }
-    if (!type) return;
+    if (type === "murasaki") {
+      fireMurasaki();
+      skillShotCooldown = 120;
+      return;
+    }
+    if (type !== "red" && type !== "blue") return;
     skillShotCooldown = 45;
     const shot = document.createElement("div");
     shot.style.cssText = "position:absolute;width:16px;height:16px;border-radius:50%;pointer-events:none;z-index:99996;";
@@ -2088,6 +2164,15 @@ function spawnBouncingBall() {
     const sdx = x - hx, sdy = y - hy;
     const sd = Math.hypot(sdx, sdy) || 1;
     skillShots.push({el:shot, type:type, vx:(sdx/sd)*10, vy:(sdy/sd)*10, x:hx, y:hy});
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "h" || e.key === "H") { triggerDomainExpansion(); return; }
+    if (!bossBallEl || skillShotCooldown > 0) return;
+    if (reverseFailed) return;
+    if (e.key === "j" || e.key === "J") firePlayerSkill("red");
+    else if (e.key === "k" || e.key === "K") firePlayerSkill("blue");
+    else if (e.key === "l" || e.key === "L") firePlayerSkill("murasaki");
   });
   function spawnItem() {
     if (!bossBallEl) return;
@@ -2593,6 +2678,7 @@ function spawnBouncingBall() {
           if (starfieldEl) { const _sfd = starfieldEl; starfieldEl = null; _sfd.style.opacity = "0"; setTimeout(function(){ _sfd.remove(); }, 600); }
           setTimeout(() => {
             if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; }
             vignette.remove();
           }, 2000);
           unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
@@ -2949,7 +3035,8 @@ function spawnBouncingBall() {
               if (bossLayer) { bossLayer.querySelectorAll(".boss-item").forEach(it => { it.style.transition = "opacity 1.5s ease-out"; it.style.opacity = "0"; }); }
               vignette.style.transition = "opacity 2s";
               vignette.style.opacity = "0";
-              setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+              setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
               unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
               if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
             }, 1500);
@@ -3059,7 +3146,8 @@ function spawnBouncingBall() {
             if (bossLayer) { bossLayer.querySelectorAll(".boss-item").forEach(it => { it.style.transition = "opacity 1.5s ease-out"; it.style.opacity = "0"; }); }
             vignette.style.transition = "opacity 2s";
             vignette.style.opacity = "0";
-            setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+            setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
             unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
             if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
           }, 1500);
@@ -3100,7 +3188,8 @@ function spawnBouncingBall() {
               if (bossLayer) { bossLayer.querySelectorAll(".boss-item").forEach(it => { it.style.transition = "opacity 1.5s ease-out"; it.style.opacity = "0"; }); }
               vignette.style.transition = "opacity 2s";
               vignette.style.opacity = "0";
-              setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+              setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
               unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
               if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
             }, 1500);
@@ -3187,7 +3276,8 @@ function spawnBouncingBall() {
               if (bossLayer) { bossLayer.querySelectorAll(".boss-item").forEach(it => { it.style.transition = "opacity 1.5s ease-out"; it.style.opacity = "0"; }); }
               vignette.style.transition = "opacity 2s";
               vignette.style.opacity = "0";
-              setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+              setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
               unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
               if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
             }, 1500);
@@ -3267,7 +3357,8 @@ function spawnBouncingBall() {
             if (bossLayer) { bossLayer.querySelectorAll(".boss-item").forEach(it => { it.style.transition = "opacity 1.5s ease-out"; it.style.opacity = "0"; }); }
             vignette.style.transition = "opacity 2s";
             vignette.style.opacity = "0";
-            setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+            setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
             unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
             if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
           }, 1500);
@@ -3307,7 +3398,8 @@ function spawnBouncingBall() {
             if (bossLayer) { bossLayer.querySelectorAll(".boss-item").forEach(it => { it.style.transition = "opacity 1.5s ease-out"; it.style.opacity = "0"; }); }
             vignette.style.transition = "opacity 2s";
             vignette.style.opacity = "0";
-            setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+            setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
             unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
             if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
           }, 1500);
@@ -3501,7 +3593,8 @@ function spawnBouncingBall() {
                 if (bossLayer) { bossLayer.querySelectorAll(".boss-item").forEach(it => { it.style.transition = "opacity 1.5s ease-out"; it.style.opacity = "0"; }); }
                 vignette.style.transition = "opacity 2s";
                 vignette.style.opacity = "0";
-                setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+                setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
                 unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
                 if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
               }, 1500);
@@ -3627,7 +3720,8 @@ function spawnBouncingBall() {
             if (bossLayer) { bossLayer.querySelectorAll(".boss-item").forEach(it => { it.style.transition = "opacity 1.5s ease-out"; it.style.opacity = "0"; }); }
             vignette.style.transition = "opacity 2s";
             vignette.style.opacity = "0";
-            setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+            setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
             unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
             if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
           }, 1500);
@@ -3678,7 +3772,8 @@ function spawnBouncingBall() {
               if (bossLayer) { bossLayer.querySelectorAll(".boss-item").forEach(it => { it.style.transition = "opacity 1.5s ease-out"; it.style.opacity = "0"; }); }
               vignette.style.transition = "opacity 2s";
               vignette.style.opacity = "0";
-              setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+              setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
               unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
               if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
             }, 1500);
@@ -3930,6 +4025,7 @@ function spawnBouncingBall() {
                     if (blueOrb) { blueOrb.remove(); blueOrb = null; }
                     if (redOrb) { redOrb.remove(); redOrb = null; }
                     if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; }
                     if (vignette) vignette.remove();
                     if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
                     unblockClicks();
@@ -4000,7 +4096,8 @@ function spawnBouncingBall() {
               if (bossLayer) { bossLayer.querySelectorAll(".boss-item").forEach(it => { it.style.transition = "opacity 1.5s ease-out"; it.style.opacity = "0"; }); }
               vignette.style.transition = "opacity 2s";
               vignette.style.opacity = "0";
-              setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+              setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
               unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
               if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
             }, 1500);
@@ -4104,7 +4201,8 @@ function spawnBouncingBall() {
             if (bossLayer) { bossLayer.querySelectorAll(".boss-item").forEach(it => { it.style.transition = "opacity 1.5s ease-out"; it.style.opacity = "0"; }); }
             vignette.style.transition = "opacity 2s";
             vignette.style.opacity = "0";
-            setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+            setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
             unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
             if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
           }, 1500);
@@ -4373,7 +4471,8 @@ function spawnBouncingBall() {
                     if (bossLayer) { bossLayer.querySelectorAll(".boss-item").forEach(it => { it.style.transition = "opacity 1.5s ease-out"; it.style.opacity = "0"; }); }
                     vignette.style.transition = "opacity 2s";
                     vignette.style.opacity = "0";
-                    setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+                    setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
                     unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
                     if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
                   }, 1500);
@@ -4423,7 +4522,8 @@ function spawnBouncingBall() {
                   hazard.remove(); hazard2.remove(); cloneBalls.forEach(c => c.el.remove()); cloneBalls = []; missiles.forEach(m => m.el.remove()); missiles = []; shieldBalls.forEach(b => b.el.remove()); shieldBalls = []; minions.forEach(m => m.el.remove()); minions = []; minionShots.forEach(s => s.el.remove()); minionShots = []; if (nuke) { nuke.el.remove(); nuke = null; } slowBullets.forEach(b => b.el.remove()); slowBullets = [];
                   vignette.style.transition = "opacity 2s";
                   vignette.style.opacity = "0";
-                  setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; } vignette.remove(); }, 2000);
+                  setTimeout(() => { if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; } vignette.remove(); }, 2000);
                   unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
                   if (bossBarEl) { bossBarEl.remove(); bossBarEl = null; }
                 }, 1500);
@@ -4770,6 +4870,7 @@ function spawnBouncingBall() {
               setTimeout(() => {
                 if (starfieldEl) { const sf3 = starfieldEl; starfieldEl = null; sf3.remove(); }
                 if (bossLayer) { bossLayer.remove(); bossLayer = null; }
+  if (window._mobileSkillBtns) { window._mobileSkillBtns.remove(); window._mobileSkillBtns = null; }
                 vignette.remove();
               }, 2000);
               unblockClicks(); document.body.style.overflow = ""; document.querySelectorAll("[data-game-border]").forEach(b => b.remove());
