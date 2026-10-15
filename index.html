@@ -1685,9 +1685,62 @@
     .leaderboard::before { animation: none; }
   }
 
+  /* 加载画面 */
+  #pageLoading {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    background: radial-gradient(circle at 50% 40%, #2a3138 0%, #161b22 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease;
+  }
+  #pageLoading.done { opacity: 0; pointer-events: none; }
+  .pl-box { text-align: center; }
+  .pl-cube {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 22px;
+    background: linear-gradient(135deg, #7cb342 0%, #558b2f 50%, #33691e 100%);
+    border: 2px solid #8bc34a;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(139,195,74,0.6);
+    animation: plSpin 1.2s ease-in-out infinite;
+  }
+  @keyframes plSpin {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.15); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+  .pl-text {
+    color: #ffd700;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-shadow: 0 0 12px rgba(255,215,0,0.6);
+    animation: plPulse 1.4s ease-in-out infinite;
+  }
+  @keyframes plPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .pl-sub {
+    margin-top: 10px;
+    color: #8b9bb4;
+    font-size: 13px;
+    letter-spacing: 6px;
+  }
+
 </style>
 </head>
 <body>
+
+<!-- 加载画面：内容没渲染好之前显示，避免误以为卡住 -->
+<div id="pageLoading">
+  <div class="pl-box">
+    <div class="pl-cube"></div>
+    <div class="pl-text">正在加载排行榜</div>
+    <div class="pl-sub">MCTIERS</div>
+  </div>
+</div>
 
 <header>
   <div class="header-inner">
@@ -5913,6 +5966,16 @@ document.getElementById("playerList").addEventListener("touchstart", startBadgeD
 
 // Initial render
 render();
+
+// 加载画面：榜单渲染完成后淡出（最多6秒强制隐藏，避免异常卡死）
+function hidePageLoading() {
+  const pl = document.getElementById("pageLoading");
+  if (!pl || pl.classList.contains("done")) return;
+  pl.classList.add("done");
+  setTimeout(() => { if (pl.parentNode) pl.parentNode.removeChild(pl); }, 800);
+}
+setTimeout(hidePageLoading, 6000);
+setTimeout(hidePageLoading, 350);
 </script>
 
 
